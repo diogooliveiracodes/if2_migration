@@ -27,7 +27,7 @@ $router->post('/properties', function () use ($router){
 
     //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
     try{
-        $pdo = new PDO('mysql:host=localhost;dbname='.$db, 'root', '');
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
     } catch (PDOException $Exception){
         return response()->json($Exception->getMessage());
     }
@@ -171,7 +171,7 @@ $router->post('/contact', function () use ($router){
     
         //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
         try{
-            $pdo = new PDO('mysql:host=localhost;dbname='.$db, 'root', '');
+            $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
         } catch (PDOException $Exception){
             return response()->json($Exception->getMessage());
         }
@@ -247,7 +247,7 @@ $router->post('/condominiums', function () use ($router){
 
     //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
     try{
-        $pdo = new PDO('mysql:host=localhost;dbname='.$db, 'root', '');
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
     } catch (PDOException $Exception){
         return response()->json($Exception->getMessage());
     }
