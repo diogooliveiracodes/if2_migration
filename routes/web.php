@@ -4,6 +4,23 @@
 
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Diogo Oliveira - 11-10-21
+ * Percorre cada elemento
+ * @param array | $result lista sem filtrar
+ * @return array | $filtrado lista filtrada
+ */ 
+// function myMapeer($result){
+//     $filtrado = [];
+//     foreach($result as $key => $value){
+//         $filtrado[$key]=[];
+//         foreach($value as $k => $v){
+//             $filtrado[$key]+=[$k => $v];
+//         }
+//     } 
+//     return $filtrado;
+// }
+
 // $router->post('/token', function () use ($router){
 //     $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471'); 
 //     return $token;
@@ -62,7 +79,7 @@ $router->post('/properties', function () use ($router){
     // percorrendo a lista com os resultados da consulta e retornando uma lista adaptada ao banco do CRM
     while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
         array_push($result, [
-            'old_id'=>utf8_encode($linha['id']),
+            'old_id'=>$linha['id'],
             'id'=>'',
             'uuid'=>'',
             'companies_id'=>'',
@@ -71,97 +88,97 @@ $router->post('/properties', function () use ($router){
             'owner_id'=>'',
             'tenant_id'=>'',
             'propertie_types_id'=>'',
-            'my_reference'=>utf8_encode($linha['reference']),
-            'status'=>utf8_encode($linha['status']),
+            'my_reference'=>$linha['reference'],
+            'status'=>$linha['status'],
             'reserved'=>'',
-            'situation'=>utf8_encode($linha['situation']),
-            'exclusive'=>utf8_encode($linha['exclusive']),
-            'property_position'=>utf8_encode($linha['position']),
+            'situation'=>$linha['situation'],
+            'exclusive'=>$linha['exclusive'],
+            'property_position'=>$linha['position'],
             'property_standard'=>'',
             'location_pattern'=>'',
-            'zone'=>utf8_encode($linha['zone']),
-            'construction_year'=>utf8_encode($linha['constructed_year']),
-            'reform_year'=>utf8_encode($linha['reform_year']),
-            'solar_orientation'=>utf8_encode($linha['solar_orientation']),
-            'visiting_hours'=>utf8_encode($linha['schedule_visit']),
-            'financing'=>utf8_encode($linha['financing']),
-            'exchange'=>utf8_encode($linha['exchange_accept']),
-            'dorms'=>utf8_encode($linha['bedroom']),
-            'suites'=>utf8_encode($linha['suite']),
-            'bathrooms'=>utf8_encode($linha['bathroom']),
-            'kitchens'=>utf8_encode($linha['kitchen']),
-            'vacancies'=>utf8_encode($linha['vacancy']),
+            'zone'=>$linha['zone'],
+            'construction_year'=>$linha['constructed_year'],
+            'reform_year'=>$linha['reform_year'],
+            'solar_orientation'=>$linha['solar_orientation'],
+            'visiting_hours'=>$linha['schedule_visit'],
+            'financing'=>$linha['financing'],
+            'exchange'=>$linha['exchange_accept'],
+            'dorms'=>$linha['bedroom'],
+            'suites'=>$linha['suite'],
+            'bathrooms'=>$linha['bathroom'],
+            'kitchens'=>$linha['kitchen'],
+            'vacancies'=>$linha['vacancy'],
             'private_spaces'=>'',
             'covered_spaces'=>'',
-            'maid_department'=>utf8_encode($linha['housemaidroom']),
-            'rooms'=>utf8_encode($linha['room']),
-            'hobby_box'=>utf8_encode($linha['hobby_box']),
-            'coin'=>utf8_encode($linha['currency']),
-            'main_purpose'=>utf8_encode($linha['main_purpose']),
-            'hide_price'=>utf8_encode($linha['hide_price']),
-            'sale_value'=>utf8_encode($linha['valued_sale']),
-            'sale_commission_rules_id'=>utf8_encode($linha['commission_broker']),
-            'rent_value'=>utf8_encode($linha['valued_rent']),
+            'maid_department'=>$linha['housemaidroom'],
+            'rooms'=>$linha['room'],
+            'hobby_box'=>$linha['hobby_box'],
+            'coin'=>$linha['currency'],
+            'main_purpose'=>$linha['main_purpose'],
+            'hide_price'=>$linha['hide_price'],
+            'sale_value'=>$linha['valued_sale'],
+            'sale_commission_rules_id'=>$linha['commission_broker'],
+            'rent_value'=>$linha['valued_rent'],
             'rent_commission_rules_id'=>'',
-            'season_value'=>utf8_encode($linha['valued_season']),
+            'season_value'=>$linha['valued_season'],
             'season_commission_rules_id'=>'',
-            'exchange_value'=>utf8_encode($linha['exchange_property_value']),
+            'exchange_value'=>$linha['exchange_property_value'],
             'exchange_commission_rules_id'=>'',
-            'iptu_value'=>utf8_encode($linha['iptu_price']),
-            'iptu_period'=>utf8_encode($linha['iptu_period']),
-            'portion'=>utf8_encode($linha['parcels']),
-            'condominium_value'=>utf8_encode($linha['condo_price']),
-            'useful_area'=>utf8_encode($linha['usefull_area_measure']),
+            'iptu_value'=>$linha['iptu_price'],
+            'iptu_period'=>$linha['iptu_period'],
+            'portion'=>$linha['parcels'],
+            'condominium_value'=>$linha['condo_price'],
+            'useful_area'=>$linha['usefull_area_measure'],
             'm2_value_area'=>'',
-            'building_area'=>utf8_encode($linha['constructed_area_measure']),
-            'private_area'=>utf8_encode($linha['private_area_measure']),
-            'common_area'=>utf8_encode($linha['common_area_measure']),
+            'building_area'=>$linha['constructed_area_measure'],
+            'private_area'=>$linha['private_area_measure'],
+            'common_area'=>$linha['common_area_measure'],
             'land_area'=>'',
-            'width_length_area'=>utf8_encode($linha['terrain_area_measure']),
+            'width_length_area'=>$linha['terrain_area_measure'],
             'freight_fund_area'=>'',
-            'total_area'=>utf8_encode($linha['total_area_measure']),
-            'condominiums_id'=>utf8_encode($linha['condo_id']),
-            'zip_code'=>utf8_encode($linha['zipcode']),
-            'country'=>utf8_encode($linha['country']),
-            'state'=>utf8_encode($linha['estate']),
-            'city'=>utf8_encode($linha['city_id']),
-            'neighborhood'=>utf8_encode($linha['neighborhood_id']),
-            'street'=>utf8_encode($linha['street']),
-            'number'=>utf8_encode($linha['number']),
-            'complement'=>utf8_encode($linha['complement']),
-            'address_reference'=>utf8_encode($linha['reference']),
-            'court_block'=>utf8_encode($linha['block']),
+            'total_area'=>$linha['total_area_measure'],
+            'condominiums_id'=>$linha['condo_id'],
+            'zip_code'=>$linha['zipcode'],
+            'country'=>$linha['country'],
+            'state'=>$linha['estate'],
+            'city'=>$linha['city_id'],
+            'neighborhood'=>$linha['neighborhood_id'],
+            'street'=>$linha['street'],
+            'number'=>$linha['number'],
+            'complement'=>$linha['complement'],
+            'address_reference'=>$linha['reference'],
+            'court_block'=>$linha['block'],
             'batch'=>'',
-            'latitude'=>utf8_encode($linha['lat']),
-            'longitude'=>utf8_encode($linha['lng']),
+            'latitude'=>$linha['lat'],
+            'longitude'=>$linha['lng'],
             'iptu'=>'',
             'water_bill'=>'',
             'energy_bill'=>'',
             'dwell'=>'',
             'registration'=>'',
-            'description'=>utf8_encode($linha['description']),
-            'note'=>utf8_encode($linha['obs']),
-            'details'=>utf8_encode($linha['details']),
-            'title_for_portals'=>utf8_encode($linha['publish_title']),
+            'description'=>html_entity_decode(html_entity_decode($linha['description'])),
+            'note'=>$linha['obs'],
+            'details'=>$linha['details'],
+            'title_for_portals'=>$linha['publish_title'],
             'portals'=>'',
-            'title_for_site'=>utf8_encode($linha['web_title']),
+            'title_for_site'=>$linha['web_title'],
             'property_group'=>'',
-            'seo_property_title'=>utf8_encode($linha['seo_tag_title']),
-            'seo_property_url'=>utf8_encode($linha['seo_url']),
-            'seo_meta_keywords'=>utf8_encode($linha['seo_meta_key_words']),
-            'seo_meta_tag_description'=>utf8_encode($linha['seo_meta_tag_description']),
+            'seo_property_title'=>$linha['seo_tag_title'],
+            'seo_property_url'=>$linha['seo_url'],
+            'seo_meta_keywords'=>$linha['seo_meta_key_words'],
+            'seo_meta_tag_description'=>$linha['seo_meta_tag_description'],
             'network'=>'',
-            'video_url'=>utf8_encode($linha['main_video_url']),
-            'created_at'=>utf8_encode($linha['created_at']),
-            'updated_at'=>utf8_encode($linha['updated_at']),
-            'deleted_at'=>utf8_encode($linha['deleted_at']),
+            'video_url'=>$linha['main_video_url'],
+            'created_at'=>$linha['created_at'],
+            'updated_at'=>$linha['updated_at'],
+            'deleted_at'=>$linha['deleted_at'],
             'key_location_id'=>'',
             'available_to_publish'=>'',
             'user_required_to_publish_id'=>''
         ]);
     }
 
-    return json_encode($result);
+    return response()->json($result);
 });
 
 $router->post('/contact', function () use ($router){
@@ -204,39 +221,39 @@ $router->post('/contact', function () use ($router){
                 'companies_id' => '',
                 'unities_id' => '',
                 'users_id' => '',
-                'name' => utf8_encode($linha['name']),
-                'email' => utf8_encode($linha['main_email']),
+                'name' => $linha['name'],
+                'email' => $linha['main_email'],
                 'second_email' => '',
-                'commercial_phone' => utf8_encode($linha['main_phone']),
-                'home_phone' => utf8_encode($linha['main_phone']),
-                'cpf' => utf8_encode($linha['cpf']),
-                'rg' => utf8_encode($linha['rg']),
-                'issue_date' => utf8_encode($linha['rg_dispatched_at']),
-                'emitting_organ' => utf8_encode($linha['rg_dispatcher']),
-                'occupation' => utf8_encode($linha['occupation']),
+                'commercial_phone' => $linha['main_phone'],
+                'home_phone' => $linha['main_phone'],
+                'cpf' => $linha['cpf'],
+                'rg' => $linha['rg'],
+                'issue_date' => $linha['rg_dispatched_at'],
+                'emitting_organ' => $linha['rg_dispatcher'],
+                'occupation' => $linha['occupation'],
                 'income_brackets_id' => '',
-                'birthday' => utf8_encode($linha['birthday']),
-                'gender' => utf8_encode($linha['gender']),
-                'civil_status' => utf8_encode($linha['civil_status']),
-                'spouse' => utf8_encode($linha['partner_name']),
-                'nationality' => utf8_encode($linha['nationality']),
-                'zip_code' => utf8_encode($linha['zipcode']),
-                'state' => utf8_encode($linha['estate']),
-                'city' => utf8_encode($linha['city']),
-                'neighborhood' => utf8_encode($linha['neighborhood']),
-                'street' => utf8_encode($linha['street']),
-                'number' => utf8_encode($linha['number']),
-                'complement' => utf8_encode($linha['complement']),
+                'birthday' => $linha['birthday'],
+                'gender' => $linha['gender'],
+                'civil_status' => $linha['civil_status'],
+                'spouse' => $linha['partner_name'],
+                'nationality' => $linha['nationality'],
+                'zip_code' => $linha['zipcode'],
+                'state' => $linha['estate'],
+                'city' => $linha['city'],
+                'neighborhood' => $linha['neighborhood'],
+                'street' => $linha['street'],
+                'number' => $linha['number'],
+                'complement' => $linha['complement'],
                 'reference' => '',
-                'created_at' => utf8_encode($linha['created_at']),
-                'updated_at' => utf8_encode($linha['updated_at']),
-                'deleted_at' => utf8_encode($linha['deleted_at']),
+                'created_at' => $linha['created_at'],
+                'updated_at' => $linha['updated_at'],
+                'deleted_at' => $linha['deleted_at'],
                 'contact_types_id' => '',
-                'cell_phone' => utf8_encode($linha['main_phone'])
+                'cell_phone' => $linha['main_phone']
             ]);
         }
 
-    return json_encode($result);
+    return response()->json($result);
 });
 
 
@@ -279,29 +296,29 @@ $router->post('/condominiums', function () use ($router){
             'status' => '',
             'companies_id' => '',
             'unities_id' => '',
-            'name' => utf8_encode($linha['name']),
+            'name' => $linha['name'],
             'tower' => '',
-            'floor' => utf8_encode($linha['floors']),
+            'floor' => $linha['floors'],
             'unity' => '',
-            'zip_code' => utf8_encode($linha['zipcode']),
-            'country' => utf8_encode($linha['country']),
-            'state' => utf8_encode($linha['estate']),
-            'city' => utf8_encode($linha['city']),
-            'neighborhood' => utf8_encode($linha['neighborhood']),
-            'street' => utf8_encode($linha['street']),
-            'number' => utf8_encode($linha['number']),
-            'complement' => utf8_encode($linha['complement']),
-            'reference' => utf8_encode($linha['landmark']),
+            'zip_code' => $linha['zipcode'],
+            'country' => $linha['country'],
+            'state' => $linha['estate'],
+            'city' => $linha['city'],
+            'neighborhood' => $linha['neighborhood'],
+            'street' => $linha['street'],
+            'number' => $linha['number'],
+            'complement' => $linha['complement'],
+            'reference' => $linha['landmark'],
             'court_block' => '',
             'batch' => '',
-            'created_at' => utf8_encode($linha['created_at']),
-            'updated_at' => utf8_encode($linha['updated_at']),
-            'deleted_at' => utf8_encode($linha['deleted_at']),
+            'created_at' => $linha['created_at'],
+            'updated_at' => $linha['updated_at'],
+            'deleted_at' => $linha['deleted_at'],
 
         ]);
     }
 
-return json_encode($result);
+    return response()->json($result);
 });
 
 $router->post('/photo', function () use ($router){
@@ -349,16 +366,16 @@ $router->post('/photo', function () use ($router){
     while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
         array_push($result, [
 
-            'id' => utf8_encode($linha['id']),
-            'name' => utf8_encode($linha['name']),
+            'id' => $linha['id'],
+            'name' => $linha['name'],
             'url' => 'https://static.if2.com.br/acc/'.$cliente.'/photos/'.$linha['property_id'].'/'.$linha['name'].'.jpg',
-            // 'width' => utf8_encode($linha['width']),
-            // 'height' => utf8_encode($linha['height']),
-            // 'thumb_width' => utf8_encode($linha['thumb_width']),
-            'property_id' => utf8_encode($linha['property_id']),
-            'order' => utf8_encode($linha['_order'])
+            // 'width' => $linha['width'],
+            // 'height' => $linha['height'],
+            // 'thumb_width' => $linha['thumb_width'],
+            'property_id' => $linha['property_id'],
+            'order' => $linha['_order']
         ]);
     }
 
-return json_encode($result);
+return response()->json($result);
 });
