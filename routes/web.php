@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
  * Percorre cada elemento
  * @param array | $result lista sem filtrar
  * @return array | $filtrado lista filtrada
- */ 
+ */
 // function myMapeer($result){
 //     $filtrado = [];
 //     foreach($result as $key => $value){
@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\DB;
 //         foreach($value as $k => $v){
 //             $filtrado[$key]+=[$k => $v];
 //         }
-//     } 
+//     }
 //     return $filtrado;
 // }
 
 // $router->post('/token', function () use ($router){
-//     $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471'); 
+//     $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
 //     return $token;
 // });
 
@@ -34,19 +34,19 @@ use Illuminate\Support\Facades\DB;
  * @return json | $result lista com os dados mapeados em ambos os db
  */
 $router->post('/properties', function () use ($router){
-    
+
     //gerando token de acordo com a data de hoje
-    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471'); 
+    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
     // return $token;
-    
+
     // recebendo token da requisição e db do cliente
     $token_request = $_POST["token"] ?? null;
     $db = $_POST["db"] ?? null;
 
     //validando token recebido
     if( $token != $_POST["token"]) {
-        return response()->json('Token Inválido', 401); 
-    } 
+        return response()->json('Token Inválido', 401);
+    }
 
     //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
     try{
@@ -56,23 +56,23 @@ $router->post('/properties', function () use ($router){
         return response()->json($Exception->getMessage());
     }
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  
+
     //query de consulta ao banco
     $consulta = $pdo->query("select c.name as city_id, p.id, p.reference, p.status, p.situation, p.exclusive, p.position, p.zone,
-        p.constructed_year, p.reform_year, p.solar_orientation, p.schedule_visit, p.financing, 
-        p.exchange_accept, p.bedroom, p.suite, p.bathroom, p.kitchen, p.vacancy, p.housemaidroom, 
+        p.constructed_year, p.reform_year, p.solar_orientation, p.schedule_visit, p.financing,
+        p.exchange_accept, p.bedroom, p.suite, p.bathroom, p.kitchen, p.vacancy, p.housemaidroom,
         p.room, p.hobby_box, p.currency, p.main_purpose, p.hide_price, p.valued_sale,
-        p.commission_broker, p.valued_rent, p.valued_season, p.exchange_property_value, p.iptu_price, 
-        p.iptu_period, p.parcels, p.condo_price, p.usefull_area_measure, p.constructed_area_measure, 
+        p.commission_broker, p.valued_rent, p.valued_season, p.exchange_property_value, p.iptu_price,
+        p.iptu_period, p.parcels, p.condo_price, p.usefull_area_measure, p.constructed_area_measure,
         p.private_area_measure, p.common_area_measure, p.terrain_area_measure, p.total_area_measure, p.condo_id, zipcode,
         p.country, p.estate, p.neighborhood_id, p.street, p.number, p.complement, p.reference,
         p.block, p.lat, p.lng, p.description, p.obs, p.details, p.publish_title, p.web_title, p.seo_tag_title,
         p.seo_url, p.seo_meta_key_words, p.seo_meta_tag_description, p.main_video_url, p.created_at,
-        p.updated_at, p.deleted_at
+        p.updated_at, p.deleted_at, p.key_local
         FROM property p
         left join city c on c.id = p.city_id;");
 
-    
+
     // criação da lista vazia
     $result=[];
 
@@ -172,7 +172,7 @@ $router->post('/properties', function () use ($router){
             'created_at'=>$linha['created_at'],
             'updated_at'=>$linha['updated_at'],
             'deleted_at'=>$linha['deleted_at'],
-            'key_location_id'=>'',
+            'key_location_id'=>$linha['key_local'],
             'available_to_publish'=>'',
             'user_required_to_publish_id'=>''
         ]);
@@ -183,18 +183,18 @@ $router->post('/properties', function () use ($router){
 
 $router->post('/contact', function () use ($router){
         //gerando token de acordo com a data de hoje
-        $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471'); 
+        $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
         // return $token;
-        
+
         // recebendo token da requisição e db do cliente
         $token_request = $_POST["token"] ?? null;
         $db = $_POST["db"] ?? null;
-    
+
         //validando token recebido
         if( $token != $_POST["token"]) {
-            return response()->json('Token Inválido', 401); 
-        } 
-    
+            return response()->json('Token Inválido', 401);
+        }
+
         //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
         try{
             $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
@@ -259,17 +259,17 @@ $router->post('/contact', function () use ($router){
 
 $router->post('/condominiums', function () use ($router){
     //gerando token de acordo com a data de hoje
-    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471'); 
+    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
     // return $token;
-    
+
     // recebendo token da requisição e db do cliente
     $token_request = $_POST["token"] ?? null;
     $db = $_POST["db"] ?? null;
 
     //validando token recebido
     if( $token != $_POST["token"]) {
-        return response()->json('Token Inválido', 401); 
-    } 
+        return response()->json('Token Inválido', 401);
+    }
 
     //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
     try{
@@ -323,16 +323,16 @@ $router->post('/condominiums', function () use ($router){
 
 $router->post('/photo', function () use ($router){
     //gerando token de acordo com a data de hoje
-    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471'); 
-    
+    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
+
     // recebendo token da requisição e db do cliente
     $token_request = $_POST["token"] ?? null;
     $db = $_POST["db"] ?? null;
 
     //validando token recebido
     if( $token != $_POST["token"]) {
-        return response()->json('Token Inválido', 401); 
-    } 
+        return response()->json('Token Inválido', 401);
+    }
 
     // capturando o nome do cliente
     $cliente = str_replace('_if2', '', $db);
@@ -346,15 +346,15 @@ $router->post('/photo', function () use ($router){
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sql = "
-        SELECT f.id, f.name 
-        FROM photo f 
+        SELECT f.id, f.name
+        FROM photo f
         inner join property p on p.id = f.property_id
         where p.status != 2
         order by p.status desc;
     ";
 
     //query de consulta ao banco
-    $consulta = $pdo->query("SELECT f.id, f.name, f.width, f.height, f.thumb_width, f.property_id, f._order 
+    $consulta = $pdo->query("SELECT f.id, f.name, f.width, f.height, f.thumb_width, f.property_id, f._order
     FROM photo f;");
 
 
