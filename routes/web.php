@@ -379,3 +379,72 @@ $router->post('/photo', function () use ($router){
 
 return response()->json($result);
 });
+
+$router->post('/customer', function () use ($router){
+    //gerando token de acordo com a data de hoje
+    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
+    // return $token;
+
+    // recebendo token da requisição e db do cliente
+    $token_request = $_POST["token"] ?? null;
+    $db = $_POST["db"] ?? null;
+
+    //validando token recebido
+    if( $token != $_POST["token"]) {
+        return response()->json('Token Inválido', 401);
+    }
+
+    //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
+    try{
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
+    } catch (PDOException $Exception){
+        return response()->json($Exception->getMessage());
+    }
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    //query de consulta ao banco
+    $consulta = $pdo->query("SELECT c.name, c.cpf, c.main_phone, c.zipcode, c.estate, c.city, c.neighborhood, c.street, c.number, c.complement, c.obs, c.created_at, c.updated_at, c.deleted_at, c.type
+        FROM customer c;");
+
+    // criação da lista vazia
+    $result=[];
+
+    // percorrendo a lista com os resultados da consulta e retornando uma lista adaptada ao banco do CRM
+    while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
+
+        // de->para com tipo de pessoa Física/Jurídica
+        if($linha['type']==0 || $linha['type']==1){
+            $typeFiltered = 0;
+        } else {
+            $typeFiltered = 1;
+        }
+
+        array_push($result, [
+            'id' => '',
+            'uuid' => '',
+            'status' => '',
+            'companies_id' => '',
+            'unities_id' => '',
+            'users_id' => '',
+            'type_person' => $typeFiltered,
+            'domain' => '',
+            'cpf' => $linha['cpf'],
+            'phone' => $linha['main_phone'],
+            'type' => 1,
+            'zip_code' => $linha['zipcode'],
+            'state' => $linha['estate'],
+            'city' => $linha['city'],
+            'neighborhood' => $linha['neighborhood'],
+            'street' => $linha['street'],
+            'number' => $linha['number'],
+            'complement' => $linha['complement'],
+            'reference' => '',
+            'note' => $linha['obs'],
+            'created_at' => $linha['created_at'],
+            'updated_at' => $linha['updated_at'],
+            'deleted_at' => $linha['deleted_at']
+        ]);
+    }
+
+return response()->json($result);
+});
