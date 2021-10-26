@@ -390,7 +390,7 @@ $router->post('/customer', function () use ($router){
     $db = $_POST["db"] ?? null;
 
     //validando token recebido
-    if( $token != $_POST["token"]) {
+    if( $token != $token_request) {
         return response()->json('Token Inválido', 401);
     }
 
@@ -428,6 +428,7 @@ $router->post('/customer', function () use ($router){
             'users_id' => '',
             'type_person' => $typeFiltered,
             'domain' => '',
+            'name' => $linha['name'],
             'cpf' => $linha['cpf'],
             'phone' => $linha['main_phone'],
             'type' => 1,
