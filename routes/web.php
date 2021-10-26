@@ -58,19 +58,22 @@ $router->post('/properties', function () use ($router){
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     //query de consulta ao banco
-    $consulta = $pdo->query("select c.name as city_id, p.id, p.reference, p.status, p.situation, p.exclusive, p.position, p.zone,
+    $consulta = $pdo->query("SELECT group_concat(cp.customer_id separator ', ') as customers, c.name as city_id, p.id,
+        p.reference, p.status, p.situation, p.exclusive, p.position, p.zone,
         p.constructed_year, p.reform_year, p.solar_orientation, p.schedule_visit, p.financing,
         p.exchange_accept, p.bedroom, p.suite, p.bathroom, p.kitchen, p.vacancy, p.housemaidroom,
         p.room, p.hobby_box, p.currency, p.main_purpose, p.hide_price, p.valued_sale,
         p.commission_broker, p.valued_rent, p.valued_season, p.exchange_property_value, p.iptu_price,
         p.iptu_period, p.parcels, p.condo_price, p.usefull_area_measure, p.constructed_area_measure,
-        p.private_area_measure, p.common_area_measure, p.terrain_area_measure, p.total_area_measure, p.condo_id, zipcode,
+        p.private_area_measure, p.common_area_measure, p.terrain_area_measure, p.total_area_measure, p.condo_id, p.zipcode,
         p.country, p.estate, p.neighborhood_id, p.street, p.number, p.complement, p.reference,
         p.block, p.lat, p.lng, p.description, p.obs, p.details, p.publish_title, p.web_title, p.seo_tag_title,
         p.seo_url, p.seo_meta_key_words, p.seo_meta_tag_description, p.main_video_url, p.created_at,
         p.updated_at, p.deleted_at, p.key_local
         FROM property p
-        left join city c on c.id = p.city_id;");
+        left join city c on c.id = p.city_id
+        left join customer_property cp on cp.property_id = p.id
+        group by p.id;");
 
 
     // criação da lista vazia
@@ -85,7 +88,7 @@ $router->post('/properties', function () use ($router){
             'companies_id'=>'',
             'unities_id'=>'',
             'unities_id'=>'',
-            'owner_id'=>'',
+            'owner_id'=>$linha['customers'],
             'tenant_id'=>'',
             'propertie_types_id'=>'',
             'my_reference'=>$linha['reference'],
@@ -403,7 +406,8 @@ $router->post('/customer', function () use ($router){
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     //query de consulta ao banco
-    $consulta = $pdo->query("SELECT c.name, c.cpf, c.main_phone, c.zipcode, c.estate, c.city, c.neighborhood, c.street, c.number, c.complement, c.obs, c.created_at, c.updated_at, c.deleted_at, c.type
+    $consulta = $pdo->query("SELECT c.id, c.name, c.cpf, c.main_phone, c.zipcode, c.estate, c.city,
+        c.neighborhood, c.street, c.number, c.complement, c.obs, c.created_at, c.updated_at, c.deleted_at, c.type
         FROM customer c;");
 
     // criação da lista vazia
@@ -420,6 +424,7 @@ $router->post('/customer', function () use ($router){
         }
 
         array_push($result, [
+            'old_id' => $linha['id'],
             'id' => '',
             'uuid' => '',
             'status' => '',
