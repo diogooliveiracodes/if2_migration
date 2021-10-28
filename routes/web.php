@@ -61,7 +61,7 @@ $router->post('/properties', function () use ($router){
     $consulta = $pdo->query("SELECT group_concat(cp.customer_id separator ', ') as customers, c.name as city_id, p.id,
         p.reference, p.status, p.situation, p.exclusive, p.position, p.zone,
         p.constructed_year, p.reform_year, p.solar_orientation, p.schedule_visit, p.financing,
-        p.exchange_accept, p.bedroom, p.suite, p.bathroom, p.kitchen, p.vacancy, p.housemaidroom,
+        p.exchange_accept, p.bedroom, p.suite, p.bathroom, p.kitchen, p.vacancy, p.vacancy_private, p.vacancy_cover, p.housemaidroom,
         p.room, p.hobby_box, p.currency, p.main_purpose, p.hide_price, p.valued_sale,
         p.commission_broker, p.valued_rent, p.valued_season, p.exchange_property_value, p.iptu_price,
         p.iptu_period, p.parcels, p.condo_price, p.usefull_area_measure, p.constructed_area_measure,
@@ -111,8 +111,8 @@ $router->post('/properties', function () use ($router){
             'bathrooms'=>$linha['bathroom'],
             'kitchens'=>$linha['kitchen'],
             'vacancies'=>$linha['vacancy'],
-            'private_spaces'=>'',
-            'covered_spaces'=>'',
+            'private_spaces'=>$linha['vacancy_private'],
+            'covered_spaces'=>$linha['vacancy_cover'],
             'maid_department'=>$linha['housemaidroom'],
             'rooms'=>$linha['room'],
             'hobby_box'=>$linha['hobby_box'],
@@ -283,7 +283,7 @@ $router->post('/condominiums', function () use ($router){
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     //query de consulta ao banco
-    $consulta = $pdo->query("SELECT name, floors, zipcode, country, estate, city,
+    $consulta = $pdo->query("SELECT id, name, floors, zipcode, country, estate, city,
     neighborhood, street, number, complement, landmark, created_at, updated_at, deleted_at
     FROM condo;");
 
@@ -295,6 +295,7 @@ $router->post('/condominiums', function () use ($router){
         array_push($result, [
 
             'id' => '',
+            'old_id' => $linha['id'],
             'uuid' => '',
             'status' => '',
             'companies_id' => '',
@@ -380,7 +381,7 @@ $router->post('/photo', function () use ($router){
         ]);
     }
 
-return response()->json($result);
+    return response()->json($result);
 });
 
 $router->post('/customer', function () use ($router){
@@ -452,5 +453,5 @@ $router->post('/customer', function () use ($router){
         ]);
     }
 
-return response()->json($result);
+    return response()->json($result);
 });
