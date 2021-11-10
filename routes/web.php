@@ -69,7 +69,7 @@ $router->post('/properties', function () use ($router){
         p.country, p.estate, p.neighborhood_id, p.street, p.number, p.complement, p.reference,
         p.block, p.lat, p.lng, p.description, p.obs, p.details, p.publish_title, p.web_title, p.seo_tag_title,
         p.seo_url, p.seo_meta_key_words, p.seo_meta_tag_description, p.main_video_url, p.created_at,
-        p.updated_at, p.deleted_at, p.key_local
+        p.updated_at, p.deleted_at, p.key_local, p.sale_price_min, p.rent_price_min
         FROM property p
         left join city c on c.id = p.city_id
         left join customer_property cp on cp.property_id = p.id
