@@ -181,7 +181,10 @@ $router->post('/properties', function () use ($router){
         ]);
     }
 
-    return response()->json($result);
+    return response()->json($result)
+    ->header('Access-Control-Allow-Origin', "*")
+    ->header('Access-Control-Allow-Methods', "PUT, POST, DELETE, GET, OPTIONS")
+    ->header('Access-Control-Allow-Headers', "Accept, Authorization, Content-Type");
 });
 
 $router->post('/contact', function () use ($router){
@@ -256,9 +259,11 @@ $router->post('/contact', function () use ($router){
             ]);
         }
 
-    return response()->json($result);
+    return response()->json($result)
+    ->header('Access-Control-Allow-Origin', "*")
+    ->header('Access-Control-Allow-Methods', "PUT, POST, DELETE, GET, OPTIONS")
+    ->header('Access-Control-Allow-Headers', "Accept, Authorization, Content-Type");
 });
-
 
 $router->post('/condominiums', function () use ($router){
     //gerando token de acordo com a data de hoje
@@ -322,7 +327,10 @@ $router->post('/condominiums', function () use ($router){
         ]);
     }
 
-    return response()->json($result);
+    return response()->json($result)
+    ->header('Access-Control-Allow-Origin', "*")
+    ->header('Access-Control-Allow-Methods', "PUT, POST, DELETE, GET, OPTIONS")
+    ->header('Access-Control-Allow-Headers', "Accept, Authorization, Content-Type");
 });
 
 $router->post('/photo', function () use ($router){
@@ -381,7 +389,10 @@ $router->post('/photo', function () use ($router){
         ]);
     }
 
-    return response()->json($result);
+    return response()->json($result)
+    ->header('Access-Control-Allow-Origin', "*")
+    ->header('Access-Control-Allow-Methods', "PUT, POST, DELETE, GET, OPTIONS")
+    ->header('Access-Control-Allow-Headers', "Accept, Authorization, Content-Type");
 });
 
 $router->post('/customer', function () use ($router){
@@ -453,5 +464,8 @@ $router->post('/customer', function () use ($router){
         ]);
     }
 
-    return response()->json($result);
+    return response()->json($result)
+    ->header('Access-Control-Allow-Origin', "*")
+    ->header('Access-Control-Allow-Methods', "PUT, POST, DELETE, GET, OPTIONS")
+    ->header('Access-Control-Allow-Headers', "Accept, Authorization, Content-Type");;
 });
