@@ -73,6 +73,7 @@ $router->post('/properties', function () use ($router){
         FROM property p
         left join city c on c.id = p.city_id
         left join customer_property cp on cp.property_id = p.id
+        where p.deleted_at is null
         group by p.id;");
 
 
@@ -181,10 +182,7 @@ $router->post('/properties', function () use ($router){
         ]);
     }
 
-    return response()->json($result)
-    ->header('Access-Control-Allow-Origin', "*")
-    ->header('Access-Control-Allow-Methods', "PUT, POST, DELETE, GET, OPTIONS")
-    ->header('Access-Control-Allow-Headers', "Accept, Authorization, Content-Type");
+    return response()->json($result);
 });
 
 $router->post('/contact', function () use ($router){
@@ -213,7 +211,7 @@ $router->post('/contact', function () use ($router){
         $consulta = $pdo->query("SELECT c.name, c.main_email, c.main_phone, c.main_phone, c.cpf, c.rg, c.rg_dispatched_at,
         c.rg_dispatcher, c.occupation, c.birthday, c.gender, c.civil_status, c.partner_name, c.nationality, c.zipcode,
         c.estate, c.city, c.neighborhood, c.street, c.number, c.complement, c.created_at, c.updated_at, c.deleted_at, c.main_phone
-        FROM customer c;");
+        FROM customer c where c.deleted_at is null;");
 
         // criação da lista vazia
         $result=[];
@@ -259,10 +257,7 @@ $router->post('/contact', function () use ($router){
             ]);
         }
 
-    return response()->json($result)
-    ->header('Access-Control-Allow-Origin', "*")
-    ->header('Access-Control-Allow-Methods', "PUT, POST, DELETE, GET, OPTIONS")
-    ->header('Access-Control-Allow-Headers', "Accept, Authorization, Content-Type");
+    return response()->json($result);
 });
 
 $router->post('/condominiums', function () use ($router){
@@ -290,7 +285,7 @@ $router->post('/condominiums', function () use ($router){
     //query de consulta ao banco
     $consulta = $pdo->query("SELECT id, name, floors, zipcode, country, estate, city,
     neighborhood, street, number, complement, landmark, created_at, updated_at, deleted_at
-    FROM condo;");
+    FROM condo where deleted_at is null;");
 
     // criação da lista vazia
     $result=[];
@@ -327,10 +322,7 @@ $router->post('/condominiums', function () use ($router){
         ]);
     }
 
-    return response()->json($result)
-    ->header('Access-Control-Allow-Origin', "*")
-    ->header('Access-Control-Allow-Methods', "PUT, POST, DELETE, GET, OPTIONS")
-    ->header('Access-Control-Allow-Headers', "Accept, Authorization, Content-Type");
+    return response()->json($result);
 });
 
 $router->post('/photo', function () use ($router){
@@ -357,19 +349,9 @@ $router->post('/photo', function () use ($router){
     }
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "
-        SELECT f.id, f.name
-        FROM photo f
-        inner join property p on p.id = f.property_id
-        where p.status != 2
-        order by p.status desc;
-    ";
-
     //query de consulta ao banco
     $consulta = $pdo->query("SELECT f.id, f.name, f.width, f.height, f.thumb_width, f.property_id, f._order
-    FROM photo f;");
-
-
+    FROM photo f where f.deleted_at is null;");
 
     // criação da lista vazia
     $result=[];
@@ -389,10 +371,7 @@ $router->post('/photo', function () use ($router){
         ]);
     }
 
-    return response()->json($result)
-    ->header('Access-Control-Allow-Origin', "*")
-    ->header('Access-Control-Allow-Methods', "PUT, POST, DELETE, GET, OPTIONS")
-    ->header('Access-Control-Allow-Headers', "Accept, Authorization, Content-Type");
+    return response()->json($result);
 });
 
 $router->post('/customer', function () use ($router){
@@ -420,7 +399,7 @@ $router->post('/customer', function () use ($router){
     //query de consulta ao banco
     $consulta = $pdo->query("SELECT c.id, c.name, c.cpf, c.main_phone, c.zipcode, c.estate, c.city,
         c.neighborhood, c.street, c.number, c.complement, c.obs, c.created_at, c.updated_at, c.deleted_at, c.type
-        FROM customer c;");
+        FROM customer c where c.deleted_at is null;");
 
     // criação da lista vazia
     $result=[];
@@ -464,8 +443,5 @@ $router->post('/customer', function () use ($router){
         ]);
     }
 
-    return response()->json($result)
-    ->header('Access-Control-Allow-Origin', "*")
-    ->header('Access-Control-Allow-Methods', "PUT, POST, DELETE, GET, OPTIONS")
-    ->header('Access-Control-Allow-Headers', "Accept, Authorization, Content-Type");;
+    return response()->json($result);
 });
