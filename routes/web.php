@@ -42,6 +42,8 @@ $router->post('/properties', function () use ($router){
     // recebendo token da requisição e db do cliente
     $token_request = $_POST["token"] ?? null;
     $db = $_POST["db"] ?? null;
+    $startId = $_POST["startId"] ?? null;
+    $endId = $_POST["endId"] ?? null;
 
     //validando token recebido
     if( $token != $_POST["token"]) {
@@ -74,6 +76,7 @@ $router->post('/properties', function () use ($router){
         left join city c on c.id = p.city_id
         left join customer_property cp on cp.property_id = p.id
         where p.deleted_at is null
+        and p.id>'$startId' and p.id<'$endId'
         group by p.id;");
 
 
@@ -268,6 +271,8 @@ $router->post('/condominiums', function () use ($router){
     // recebendo token da requisição e db do cliente
     $token_request = $_POST["token"] ?? null;
     $db = $_POST["db"] ?? null;
+    $startId = $_POST["startId"] ?? null;
+    $endId = $_POST["endId"] ?? null;
 
     //validando token recebido
     if( $token != $_POST["token"]) {
@@ -285,7 +290,7 @@ $router->post('/condominiums', function () use ($router){
     //query de consulta ao banco
     $consulta = $pdo->query("SELECT id, name, floors, zipcode, country, estate, city,
     neighborhood, street, number, complement, landmark, created_at, updated_at, deleted_at
-    FROM condo where deleted_at is null;");
+    FROM condo where deleted_at is null and id>'$startId' and id<'$endId';");
 
     // criação da lista vazia
     $result=[];
@@ -332,6 +337,8 @@ $router->post('/photo', function () use ($router){
     // recebendo token da requisição e db do cliente
     $token_request = $_POST["token"] ?? null;
     $db = $_POST["db"] ?? null;
+    $startId = $_POST["startId"] ?? null;
+    $endId = $_POST["endId"] ?? null;
 
     //validando token recebido
     if( $token != $_POST["token"]) {
@@ -351,7 +358,7 @@ $router->post('/photo', function () use ($router){
 
     //query de consulta ao banco
     $consulta = $pdo->query("SELECT f.id, f.name, f.width, f.height, f.thumb_width, f.property_id, f._order
-    FROM photo f where f.deleted_at is null;");
+    FROM photo f where f.deleted_at is null and f.id>'$startId' and f.id<'$endId';");
 
     // criação da lista vazia
     $result=[];
@@ -382,6 +389,8 @@ $router->post('/customer', function () use ($router){
     // recebendo token da requisição e db do cliente
     $token_request = $_POST["token"] ?? null;
     $db = $_POST["db"] ?? null;
+    $startId = $_POST["startId"] ?? null;
+    $endId = $_POST["endId"] ?? null;
 
     //validando token recebido
     if( $token != $token_request) {
@@ -399,7 +408,7 @@ $router->post('/customer', function () use ($router){
     //query de consulta ao banco
     $consulta = $pdo->query("SELECT c.id, c.name, c.cpf, c.main_phone, c.zipcode, c.estate, c.city,
         c.neighborhood, c.street, c.number, c.complement, c.obs, c.created_at, c.updated_at, c.deleted_at, c.type
-        FROM customer c where c.deleted_at is null;");
+        FROM customer c where c.deleted_at is null and c.id>'$startId' and c.id<'$endId';");
 
     // criação da lista vazia
     $result=[];
@@ -444,4 +453,42 @@ $router->post('/customer', function () use ($router){
     }
 
     return response()->json($result);
+});
+
+$router->post('/count', function () use ($router){
+    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
+    $token_request = $_POST["token"] ?? null;
+    $db = $_POST["db"] ?? null;
+    $item = $_POST["item"] ?? null;
+    if( $token != $token_request) {
+        return response()->json('Token Inválido', 401);
+    }
+    try{
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
+    } catch (PDOException $Exception){
+        return response()->json($Exception->getMessage());
+    }
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $consulta = $pdo->query("SELECT max(id) from ".$item.";");
+
+    $result = $consulta->fetch(PDO::FETCH_DEFAULT);
+
+    return response()->json($result[0]);
+});
+
+$router->post('/testconnection', function () use ($router){
+    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
+    $token_request = $_POST["token"] ?? null;
+    $db = $_POST["db"] ?? null;
+
+    if( $token != $token_request) {
+        return response()->json(401);
+    }
+    try{
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
+    } catch (PDOException $Exception){
+        return response()->json(404);
+    }
+
+    return response()->json(200);
 });
