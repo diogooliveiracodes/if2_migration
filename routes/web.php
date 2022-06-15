@@ -60,7 +60,7 @@ $router->post('/properties', function () use ($router){
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     //query de consulta ao banco
-    $consulta = $pdo->query("SELECT group_concat(cp.customer_id separator ', ') as customers, c.name as city_id, p.id,
+    $consulta = $pdo->query("SELECT group_concat(cp.customer_id separator ', ') as customers, p.id,
         p.reference, p.status, p.situation, p.exclusive, p.position, p.zone,
         p.constructed_year, p.reform_year, p.solar_orientation, p.schedule_visit, p.financing,
         p.exchange_accept, p.bedroom, p.suite, p.bathroom, p.kitchen, p.vacancy, p.vacancy_private, p.vacancy_cover, p.housemaidroom,
@@ -68,12 +68,11 @@ $router->post('/properties', function () use ($router){
         p.commission_broker, p.valued_rent, p.valued_season, p.exchange_property_value, p.iptu_price,
         p.iptu_period, p.parcels, p.condo_price, p.usefull_area_min, p.constructed_area_min,
         p.private_area_min, p.common_area_min, p.terrain_area_min, p.total_area_min, p.condo_id, p.zipcode,
-        p.country, p.estate, p.neighborhood_id, p.street, p.number, p.complement, p.reference,
+        p.country, p.estate, p.city, p.neighborhood, p.street, p.number, p.complement, p.reference,
         p.block, p.lat, p.lng, p.description, p.obs, p.details, p.publish_title, p.web_title, p.seo_tag_title,
         p.seo_url, p.seo_meta_key_words, p.seo_meta_tag_description, p.main_video_url, p.created_at,
         p.updated_at, p.deleted_at, p.key_local, p.sale_price_min, p.rent_price_min
         FROM property p
-        left join city c on c.id = p.city_id
         left join customer_property cp on cp.property_id = p.id
         where p.deleted_at is null
         and p.id>'$startId' and p.id<'$endId'
@@ -148,8 +147,8 @@ $router->post('/properties', function () use ($router){
             'zip_code'=>$linha['zipcode'],
             'country'=>$linha['country'],
             'state'=>$linha['estate'],
-            'city'=>$linha['city_id'],
-            'neighborhood'=>$linha['neighborhood_id'],
+            'city'=>$linha['city'],
+            'neighborhood'=>$linha['neighborhood'],
             'street'=>$linha['street'],
             'number'=>$linha['number'],
             'complement'=>$linha['complement'],
