@@ -71,7 +71,7 @@ $router->post('/properties', function () use ($router){
         p.country, p.estate, p.city, p.neighborhood, p.street, p.number, p.complement, p.reference,
         p.block, p.lat, p.lng, p.description, p.obs, p.details, p.publish_title, p.web_title, p.seo_tag_title,
         p.seo_url, p.seo_meta_key_words, p.seo_meta_tag_description, p.main_video_url, p.created_at,
-        p.updated_at, p.deleted_at, p.key_local, p.sale_price_min, p.rent_price_min
+        p.updated_at, p.deleted_at, p.key_local, p.sale_price_min, p.rent_price_min, p.local_pattern, p.landmark, p.groups
         FROM property p
         left join customer_property cp on cp.property_id = p.id
         where p.deleted_at is null
@@ -85,6 +85,7 @@ $router->post('/properties', function () use ($router){
     // percorrendo a lista com os resultados da consulta e retornando uma lista adaptada ao banco do CRM
     while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
         array_push($result, [
+            'property_group' => $linha['groups'],
             'old_id'=>$linha['id'],
             'id'=>'',
             'uuid'=>'',
@@ -101,7 +102,7 @@ $router->post('/properties', function () use ($router){
             'exclusive'=>$linha['exclusive'],
             'property_position'=>$linha['position'],
             'property_standard'=>'',
-            'location_pattern'=>'',
+            'location_pattern'=>$linha['local_pattern'],
             'zone'=>$linha['zone'],
             'construction_year'=>$linha['constructed_year'],
             'reform_year'=>$linha['reform_year'],
@@ -152,7 +153,7 @@ $router->post('/properties', function () use ($router){
             'street'=>$linha['street'],
             'number'=>$linha['number'],
             'complement'=>$linha['complement'],
-            'address_reference'=>$linha['reference'],
+            'address_reference'=>$linha['landmark'],
             'court_block'=>$linha['block'],
             'batch'=>'',
             'latitude'=>$linha['lat'],
