@@ -169,7 +169,6 @@ $router->post('/properties', function () use ($router){
             'title_for_portals'=>$linha['publish_title'],
             'portals'=>'',
             'title_for_site'=>$linha['web_title'],
-            'property_group'=>'',
             'seo_property_title'=>$linha['seo_tag_title'],
             'seo_property_url'=>$linha['seo_url'],
             'seo_meta_keywords'=>$linha['seo_meta_key_words'],
