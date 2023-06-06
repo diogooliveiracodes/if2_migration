@@ -71,7 +71,8 @@ $router->post('/properties', function () use ($router){
         p.country, p.estate, p.city, p.neighborhood, p.street, p.number, p.complement, p.reference,
         p.block, p.lat, p.lng, p.description, p.obs, p.details, p.publish_title, p.web_title, p.seo_tag_title,
         p.seo_url, p.seo_meta_key_words, p.seo_meta_tag_description, p.main_video_url, p.created_at,
-        p.updated_at, p.deleted_at, p.key_local, p.sale_price_min, p.rent_price_min, p.local_pattern, p.landmark, p.groups, p.pattern
+        p.updated_at, p.deleted_at, p.key_local, p.sale_price_min, p.rent_price_min, p.local_pattern, p.landmark, p.groups,
+        p.pattern, p.type
         FROM property p
         left join customer_property cp on cp.property_id = p.id
         where p.deleted_at is null
@@ -94,7 +95,7 @@ $router->post('/properties', function () use ($router){
             'unities_id'=>'',
             'owner_id'=>$linha['customers'],
             'tenant_id'=>'',
-            'propertie_types_id'=>'',
+            'propertie_types_id'=>$linha['type'],
             'my_reference'=>$linha['reference'],
             'status'=>$linha['status'],
             'reserved'=>'',
