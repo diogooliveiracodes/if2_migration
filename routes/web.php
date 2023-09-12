@@ -33,10 +33,10 @@ use Illuminate\Support\Facades\DB;
  * @param json | $token token gerado pelo sistema ambos os endpoints
  * @return json | $result lista com os dados mapeados em ambos os db
  */
-$router->post('/properties', function () use ($router){
+$router->post('/properties', function () use ($router) {
 
     //gerando token de acordo com a data de hoje
-    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
+    $token = date('y' . 'C77656' . 'y' . 'CC802' . 'mm' . '29EC6' . 'dy' . 'W27TEQ' . 'yd' . '0870' . 'my' . 'E285' . 'yd' . '471');
     // return $token;
 
     // recebendo token da requisição e db do cliente
@@ -46,15 +46,15 @@ $router->post('/properties', function () use ($router){
     $endId = $_POST["endId"] ?? null;
 
     //validando token recebido
-    if( $token != $_POST["token"]) {
+    if ($token != $_POST["token"]) {
         return response()->json('Token Inválido', 401);
     }
 
     //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
-    try{
-        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
+    try {
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname=' . $db, 'diogo.oliveira', ':4&find&BOOK&6:');
         // $pdo = new PDO('mysql:host=localhost;dbname='.$db, 'root', '');
-    } catch (PDOException $Exception){
+    } catch (PDOException $Exception) {
         return response()->json($Exception->getMessage());
     }
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -81,191 +81,191 @@ $router->post('/properties', function () use ($router){
 
 
     // criação da lista vazia
-    $result=[];
+    $result = [];
 
     // percorrendo a lista com os resultados da consulta e retornando uma lista adaptada ao banco do CRM
     while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
         array_push($result, [
             'property_group' => $linha['groups'],
-            'old_id'=>$linha['id'],
-            'id'=>'',
-            'uuid'=>'',
-            'companies_id'=>'',
-            'unities_id'=>'',
-            'unities_id'=>'',
-            'owner_id'=>$linha['customers'],
-            'tenant_id'=>'',
-            'propertie_types_id'=>$linha['type'],
-            'my_reference'=>$linha['reference'],
-            'status'=>$linha['status'],
-            'reserved'=>'',
-            'situation'=>$linha['situation'],
-            'exclusive'=>$linha['exclusive'],
-            'property_position'=>$linha['position'],
-            'property_standard'=>$linha['pattern'],
-            'location_pattern'=>$linha['local_pattern'],
-            'zone'=>$linha['zone'],
-            'construction_year'=>$linha['constructed_year'],
-            'reform_year'=>$linha['reform_year'],
-            'solar_orientation'=>$linha['solar_orientation'],
-            'visiting_hours'=>$linha['schedule_visit'],
-            'financing'=>$linha['financing'],
-            'exchange'=>$linha['exchange_accept'],
-            'dorms'=>$linha['bedroom'],
-            'suites'=>$linha['suite'],
-            'bathrooms'=>$linha['bathroom'],
-            'kitchens'=>$linha['kitchen'],
-            'vacancies'=>$linha['vacancy'],
-            'private_spaces'=>$linha['vacancy_private'],
-            'covered_spaces'=>$linha['vacancy_cover'],
-            'maid_department'=>$linha['housemaidroom'],
-            'rooms'=>$linha['room'],
-            'hobby_box'=>$linha['hobby_box'],
-            'coin'=>$linha['currency'],
-            'main_purpose'=>$linha['main_purpose'],
-            'hide_price'=>$linha['hide_price'],
-            'sale_value'=>$linha['sale_price_min'],
-            'sale_commission_rules_id'=>$linha['commission_broker'],
-            'rent_value'=>$linha['rent_price_min'],
-            'rent_commission_rules_id'=>'',
-            'season_value'=>$linha['valued_season'],
-            'season_commission_rules_id'=>'',
-            'exchange_value'=>$linha['exchange_property_value'],
-            'exchange_commission_rules_id'=>'',
-            'iptu_value'=>$linha['iptu_price'],
-            'iptu_period'=>$linha['iptu_period'],
-            'portion'=>$linha['parcels'],
-            'condominium_value'=>$linha['condo_price'],
-            'useful_area'=>$linha['usefull_area_min'],
-            'm2_value_area'=>'',
-            'building_area'=>$linha['constructed_area_min'],
-            'private_area'=>$linha['private_area_min'],
-            'common_area'=>$linha['common_area_min'],
-            'land_area'=>'',
-            'width_length_area'=>$linha['terrain_area_min'],
-            'freight_fund_area'=>'',
-            'total_area'=>$linha['total_area_min'],
-            'condominiums_id'=>$linha['condo_id'],
-            'zip_code'=>$linha['zipcode'],
-            'country'=>$linha['country'],
-            'state'=>$linha['estate'],
-            'city'=>$linha['city'],
-            'neighborhood'=>$linha['neighborhood'],
-            'street'=>$linha['street'],
-            'number'=>$linha['number'],
-            'complement'=>$linha['complement'],
-            'address_reference'=>$linha['landmark'],
-            'court_block'=>$linha['block'],
-            'batch'=>'',
-            'latitude'=>$linha['lat'],
-            'longitude'=>$linha['lng'],
-            'iptu'=>'',
-            'water_bill'=>'',
-            'energy_bill'=>'',
-            'dwell'=>'',
-            'registration'=>'',
-            'description'=>html_entity_decode(html_entity_decode($linha['description'])),
-            'note'=>$linha['obs'],
-            'details'=>$linha['details'],
-            'title_for_portals'=>$linha['publish_title'],
-            'portals'=>'',
-            'title_for_site'=>$linha['web_title'],
-            'seo_property_title'=>$linha['seo_tag_title'],
-            'seo_property_url'=>$linha['seo_url'],
-            'seo_meta_keywords'=>$linha['seo_meta_key_words'],
-            'seo_meta_tag_description'=>$linha['seo_meta_tag_description'],
-            'network'=>'',
-            'video_url'=>$linha['main_video_url'],
-            'created_at'=>$linha['created_at'],
-            'updated_at'=>$linha['updated_at'],
-            'deleted_at'=>$linha['deleted_at'],
-            'key_location_id'=>$linha['key_local'],
-            'available_to_publish'=>'',
-            'user_required_to_publish_id'=>''
+            'old_id' => $linha['id'],
+            'id' => '',
+            'uuid' => '',
+            'companies_id' => '',
+            'unities_id' => '',
+            'unities_id' => '',
+            'owner_id' => $linha['customers'],
+            'tenant_id' => '',
+            'propertie_types_id' => $linha['type'],
+            'my_reference' => $linha['reference'],
+            'status' => $linha['status'],
+            'reserved' => '',
+            'situation' => $linha['situation'],
+            'exclusive' => $linha['exclusive'],
+            'property_position' => $linha['position'],
+            'property_standard' => $linha['pattern'],
+            'location_pattern' => $linha['local_pattern'],
+            'zone' => $linha['zone'],
+            'construction_year' => $linha['constructed_year'],
+            'reform_year' => $linha['reform_year'],
+            'solar_orientation' => $linha['solar_orientation'],
+            'visiting_hours' => $linha['schedule_visit'],
+            'financing' => $linha['financing'],
+            'exchange' => $linha['exchange_accept'],
+            'dorms' => $linha['bedroom'],
+            'suites' => $linha['suite'],
+            'bathrooms' => $linha['bathroom'],
+            'kitchens' => $linha['kitchen'],
+            'vacancies' => $linha['vacancy'],
+            'private_spaces' => $linha['vacancy_private'],
+            'covered_spaces' => $linha['vacancy_cover'],
+            'maid_department' => $linha['housemaidroom'],
+            'rooms' => $linha['room'],
+            'hobby_box' => $linha['hobby_box'],
+            'coin' => $linha['currency'],
+            'main_purpose' => $linha['main_purpose'],
+            'hide_price' => $linha['hide_price'],
+            'sale_value' => $linha['sale_price_min'],
+            'sale_commission_rules_id' => $linha['commission_broker'],
+            'rent_value' => $linha['rent_price_min'],
+            'rent_commission_rules_id' => '',
+            'season_value' => $linha['valued_season'],
+            'season_commission_rules_id' => '',
+            'exchange_value' => $linha['exchange_property_value'],
+            'exchange_commission_rules_id' => '',
+            'iptu_value' => $linha['iptu_price'],
+            'iptu_period' => $linha['iptu_period'],
+            'portion' => $linha['parcels'],
+            'condominium_value' => $linha['condo_price'],
+            'useful_area' => $linha['usefull_area_min'],
+            'm2_value_area' => '',
+            'building_area' => $linha['constructed_area_min'],
+            'private_area' => $linha['private_area_min'],
+            'common_area' => $linha['common_area_min'],
+            'land_area' => '',
+            'width_length_area' => $linha['terrain_area_min'],
+            'freight_fund_area' => '',
+            'total_area' => $linha['total_area_min'],
+            'condominiums_id' => $linha['condo_id'],
+            'zip_code' => $linha['zipcode'],
+            'country' => $linha['country'],
+            'state' => $linha['estate'],
+            'city' => $linha['city'],
+            'neighborhood' => $linha['neighborhood'],
+            'street' => $linha['street'],
+            'number' => $linha['number'],
+            'complement' => $linha['complement'],
+            'address_reference' => $linha['landmark'],
+            'court_block' => $linha['block'],
+            'batch' => '',
+            'latitude' => $linha['lat'],
+            'longitude' => $linha['lng'],
+            'iptu' => '',
+            'water_bill' => '',
+            'energy_bill' => '',
+            'dwell' => '',
+            'registration' => '',
+            'description' => html_entity_decode(html_entity_decode($linha['description'])),
+            'note' => $linha['obs'],
+            'details' => $linha['details'],
+            'title_for_portals' => $linha['publish_title'],
+            'portals' => '',
+            'title_for_site' => $linha['web_title'],
+            'seo_property_title' => $linha['seo_tag_title'],
+            'seo_property_url' => $linha['seo_url'],
+            'seo_meta_keywords' => $linha['seo_meta_key_words'],
+            'seo_meta_tag_description' => $linha['seo_meta_tag_description'],
+            'network' => '',
+            'video_url' => $linha['main_video_url'],
+            'created_at' => $linha['created_at'],
+            'updated_at' => $linha['updated_at'],
+            'deleted_at' => $linha['deleted_at'],
+            'key_location_id' => $linha['key_local'],
+            'available_to_publish' => '',
+            'user_required_to_publish_id' => ''
         ]);
     }
 
     return response()->json($result);
 });
 
-$router->post('/contact', function () use ($router){
-        //gerando token de acordo com a data de hoje
-        $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
-        // return $token;
+$router->post('/contact', function () use ($router) {
+    //gerando token de acordo com a data de hoje
+    $token = date('y' . 'C77656' . 'y' . 'CC802' . 'mm' . '29EC6' . 'dy' . 'W27TEQ' . 'yd' . '0870' . 'my' . 'E285' . 'yd' . '471');
+    // return $token;
 
-        // recebendo token da requisição e db do cliente
-        $token_request = $_POST["token"] ?? null;
-        $db = $_POST["db"] ?? null;
+    // recebendo token da requisição e db do cliente
+    $token_request = $_POST["token"] ?? null;
+    $db = $_POST["db"] ?? null;
 
-        //validando token recebido
-        if( $token != $_POST["token"]) {
-            return response()->json('Token Inválido', 401);
-        }
+    //validando token recebido
+    if ($token != $_POST["token"]) {
+        return response()->json('Token Inválido', 401);
+    }
 
-        //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
-        try{
-            $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
-        } catch (PDOException $Exception){
-            return response()->json($Exception->getMessage());
-        }
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
+    try {
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname=' . $db, 'diogo.oliveira', ':4&find&BOOK&6:');
+    } catch (PDOException $Exception) {
+        return response()->json($Exception->getMessage());
+    }
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        //query de consulta ao banco
-        $consulta = $pdo->query("SELECT c.name, c.main_email, c.main_phone, c.main_phone, c.cpf, c.rg, c.rg_dispatched_at,
+    //query de consulta ao banco
+    $consulta = $pdo->query("SELECT c.name, c.main_email, c.main_phone, c.main_phone, c.cpf, c.rg, c.rg_dispatched_at,
         c.rg_dispatcher, c.occupation, c.birthday, c.gender, c.civil_status, c.partner_name, c.nationality, c.zipcode,
         c.estate, c.city, c.neighborhood, c.street, c.number, c.complement, c.created_at, c.updated_at, c.deleted_at, c.main_phone
         FROM customer c where c.deleted_at is null;");
 
-        // criação da lista vazia
-        $result=[];
+    // criação da lista vazia
+    $result = [];
 
-        // percorrendo a lista com os resultados da consulta e retornando uma lista adaptada ao banco do CRM
-        while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
-            array_push($result, [
-                'id' => '',
-                'uuid' => '',
-                'status' => '',
-                'companies_id' => '',
-                'unities_id' => '',
-                'users_id' => '',
-                'name' => $linha['name'],
-                'email' => $linha['main_email'],
-                'second_email' => '',
-                'commercial_phone' => $linha['main_phone'],
-                'home_phone' => $linha['main_phone'],
-                'cpf' => $linha['cpf'],
-                'rg' => $linha['rg'],
-                'issue_date' => $linha['rg_dispatched_at'],
-                'emitting_organ' => $linha['rg_dispatcher'],
-                'occupation' => $linha['occupation'],
-                'income_brackets_id' => '',
-                'birthday' => $linha['birthday'],
-                'gender' => $linha['gender'],
-                'civil_status' => $linha['civil_status'],
-                'spouse' => $linha['partner_name'],
-                'nationality' => $linha['nationality'],
-                'zip_code' => $linha['zipcode'],
-                'state' => $linha['estate'],
-                'city' => $linha['city'],
-                'neighborhood' => $linha['neighborhood'],
-                'street' => $linha['street'],
-                'number' => $linha['number'],
-                'complement' => $linha['complement'],
-                'reference' => '',
-                'created_at' => $linha['created_at'],
-                'updated_at' => $linha['updated_at'],
-                'deleted_at' => $linha['deleted_at'],
-                'contact_types_id' => '',
-                'cell_phone' => $linha['main_phone']
-            ]);
-        }
+    // percorrendo a lista com os resultados da consulta e retornando uma lista adaptada ao banco do CRM
+    while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
+        array_push($result, [
+            'id' => '',
+            'uuid' => '',
+            'status' => '',
+            'companies_id' => '',
+            'unities_id' => '',
+            'users_id' => '',
+            'name' => $linha['name'],
+            'email' => $linha['main_email'],
+            'second_email' => '',
+            'commercial_phone' => $linha['main_phone'],
+            'home_phone' => $linha['main_phone'],
+            'cpf' => $linha['cpf'],
+            'rg' => $linha['rg'],
+            'issue_date' => $linha['rg_dispatched_at'],
+            'emitting_organ' => $linha['rg_dispatcher'],
+            'occupation' => $linha['occupation'],
+            'income_brackets_id' => '',
+            'birthday' => $linha['birthday'],
+            'gender' => $linha['gender'],
+            'civil_status' => $linha['civil_status'],
+            'spouse' => $linha['partner_name'],
+            'nationality' => $linha['nationality'],
+            'zip_code' => $linha['zipcode'],
+            'state' => $linha['estate'],
+            'city' => $linha['city'],
+            'neighborhood' => $linha['neighborhood'],
+            'street' => $linha['street'],
+            'number' => $linha['number'],
+            'complement' => $linha['complement'],
+            'reference' => '',
+            'created_at' => $linha['created_at'],
+            'updated_at' => $linha['updated_at'],
+            'deleted_at' => $linha['deleted_at'],
+            'contact_types_id' => '',
+            'cell_phone' => $linha['main_phone']
+        ]);
+    }
 
     return response()->json($result);
 });
 
-$router->post('/condominiums', function () use ($router){
+$router->post('/condominiums', function () use ($router) {
     //gerando token de acordo com a data de hoje
-    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
+    $token = date('y' . 'C77656' . 'y' . 'CC802' . 'mm' . '29EC6' . 'dy' . 'W27TEQ' . 'yd' . '0870' . 'my' . 'E285' . 'yd' . '471');
     // return $token;
 
     // recebendo token da requisição e db do cliente
@@ -275,14 +275,14 @@ $router->post('/condominiums', function () use ($router){
     $endId = $_POST["endId"] ?? null;
 
     //validando token recebido
-    if( $token != $_POST["token"]) {
+    if ($token != $_POST["token"]) {
         return response()->json('Token Inválido', 401);
     }
 
     //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
-    try{
-        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
-    } catch (PDOException $Exception){
+    try {
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname=' . $db, 'diogo.oliveira', ':4&find&BOOK&6:');
+    } catch (PDOException $Exception) {
         return response()->json($Exception->getMessage());
     }
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -293,7 +293,7 @@ $router->post('/condominiums', function () use ($router){
     FROM condo where deleted_at is null and id>'$startId' and id<'$endId';");
 
     // criação da lista vazia
-    $result=[];
+    $result = [];
 
     // percorrendo a lista com os resultados da consulta e retornando uma lista adaptada ao banco do CRM
     while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
@@ -330,9 +330,9 @@ $router->post('/condominiums', function () use ($router){
     return response()->json($result);
 });
 
-$router->post('/photo', function () use ($router){
+$router->post('/photo', function () use ($router) {
     //gerando token de acordo com a data de hoje
-    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
+    $token = date('y' . 'C77656' . 'y' . 'CC802' . 'mm' . '29EC6' . 'dy' . 'W27TEQ' . 'yd' . '0870' . 'my' . 'E285' . 'yd' . '471');
 
     // recebendo token da requisição e db do cliente
     $token_request = $_POST["token"] ?? null;
@@ -341,7 +341,7 @@ $router->post('/photo', function () use ($router){
     $endId = $_POST["endId"] ?? null;
 
     //validando token recebido
-    if( $token != $_POST["token"]) {
+    if ($token != $_POST["token"]) {
         return response()->json('Token Inválido', 401);
     }
 
@@ -349,9 +349,9 @@ $router->post('/photo', function () use ($router){
     $cliente = str_replace('_if2', '', $db);
 
     //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
-    try{
-        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
-    } catch (PDOException $Exception){
+    try {
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname=' . $db, 'diogo.oliveira', ':4&find&BOOK&6:');
+    } catch (PDOException $Exception) {
         return response()->json($Exception->getMessage());
     }
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -361,7 +361,7 @@ $router->post('/photo', function () use ($router){
     FROM photo f where f.deleted_at is null and f.id>'$startId' and f.id<'$endId';");
 
     // criação da lista vazia
-    $result=[];
+    $result = [];
 
     // percorrendo a lista com os resultados da consulta e retornando uma lista adaptada ao banco do CRM
     while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
@@ -369,7 +369,7 @@ $router->post('/photo', function () use ($router){
 
             'id' => $linha['id'],
             'name' => $linha['name'],
-            'url' => 'https://static.if2.com.br/acc/'.$cliente.'/photos/'.$linha['property_id'].'/'.$linha['name'].'.jpg',
+            'url' => 'https://static.if2.com.br/acc/' . $cliente . '/photos/' . $linha['property_id'] . '/' . $linha['name'] . '.jpg',
             // 'width' => $linha['width'],
             // 'height' => $linha['height'],
             // 'thumb_width' => $linha['thumb_width'],
@@ -381,9 +381,9 @@ $router->post('/photo', function () use ($router){
     return response()->json($result);
 });
 
-$router->post('/customer', function () use ($router){
+$router->post('/customer', function () use ($router) {
     //gerando token de acordo com a data de hoje
-    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
+    $token = date('y' . 'C77656' . 'y' . 'CC802' . 'mm' . '29EC6' . 'dy' . 'W27TEQ' . 'yd' . '0870' . 'my' . 'E285' . 'yd' . '471');
     // return $token;
 
     // recebendo token da requisição e db do cliente
@@ -393,14 +393,14 @@ $router->post('/customer', function () use ($router){
     $endId = $_POST["endId"] ?? null;
 
     //validando token recebido
-    if( $token != $token_request) {
+    if ($token != $token_request) {
         return response()->json('Token Inválido', 401);
     }
 
     //tentativa de conexão com o banco utilizando PDO e o db fornecido pela requisição
-    try{
-        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
-    } catch (PDOException $Exception){
+    try {
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname=' . $db, 'diogo.oliveira', ':4&find&BOOK&6:');
+    } catch (PDOException $Exception) {
         return response()->json($Exception->getMessage());
     }
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -411,13 +411,13 @@ $router->post('/customer', function () use ($router){
         FROM customer c where c.deleted_at is null and c.id>'$startId' and c.id<'$endId';");
 
     // criação da lista vazia
-    $result=[];
+    $result = [];
 
     // percorrendo a lista com os resultados da consulta e retornando uma lista adaptada ao banco do CRM
     while ($linha = $consulta->fetch(PDO::FETCH_ASSOC)) {
 
         // de->para com tipo de pessoa Física/Jurídica
-        if($linha['type']==0 || $linha['type']==1){
+        if ($linha['type'] == 0 || $linha['type'] == 1) {
             $typeFiltered = 0;
         } else {
             $typeFiltered = 1;
@@ -455,38 +455,38 @@ $router->post('/customer', function () use ($router){
     return response()->json($result);
 });
 
-$router->post('/count', function () use ($router){
-    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
+$router->post('/count', function () use ($router) {
+    $token = date('y' . 'C77656' . 'y' . 'CC802' . 'mm' . '29EC6' . 'dy' . 'W27TEQ' . 'yd' . '0870' . 'my' . 'E285' . 'yd' . '471');
     $token_request = $_POST["token"] ?? null;
     $db = $_POST["db"] ?? null;
     $item = $_POST["item"] ?? null;
-    if( $token != $token_request) {
+    if ($token != $token_request) {
         return response()->json('Token Inválido', 401);
     }
-    try{
-        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
-    } catch (PDOException $Exception){
+    try {
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname=' . $db, 'diogo.oliveira', ':4&find&BOOK&6:');
+    } catch (PDOException $Exception) {
         return response()->json($Exception->getMessage());
     }
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $consulta = $pdo->query("SELECT max(id) from ".$item.";");
+    $consulta = $pdo->query("SELECT max(id) from " . $item . ";");
 
     $result = $consulta->fetch(PDO::FETCH_DEFAULT);
 
     return response()->json($result[0]);
 });
 
-$router->post('/testconnection', function () use ($router){
-    $token = date('y'.'C77656'.'y'.'CC802'.'mm'.'29EC6'.'dy'.'W27TEQ'.'yd'. '0870'.'my'.'E285'.'yd'.'471');
+$router->post('/testconnection', function () use ($router) {
+    $token = date('y' . 'C77656' . 'y' . 'CC802' . 'mm' . '29EC6' . 'dy' . 'W27TEQ' . 'yd' . '0870' . 'my' . 'E285' . 'yd' . '471');
     $token_request = $_POST["token"] ?? null;
     $db = $_POST["db"] ?? null;
 
-    if( $token != $token_request) {
+    if ($token != $token_request) {
         return response()->json(401);
     }
-    try{
-        $pdo = new PDO('mysql:host=78.47.208.5;dbname='.$db, 'diogo.oliveira', ':4&find&BOOK&6:');
-    } catch (PDOException $Exception){
+    try {
+        $pdo = new PDO('mysql:host=78.47.208.5;dbname=' . $db, 'diogo.oliveira', ':4&find&BOOK&6:');
+    } catch (PDOException $Exception) {
         return response()->json(404);
     }
 
