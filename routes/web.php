@@ -61,7 +61,7 @@ $router->post('/properties', function () use ($router) {
 
     //query de consulta ao banco
     $consulta = $pdo->query("SELECT group_concat(cp.customer_id separator ', ') as customers, p.id,
-        p.reference, p.status, p.situation, p.exclusive, p.position, p.zone,
+        p.custom_reference, p.status, p.situation, p.exclusive, p.position, p.zone,
         p.constructed_year, p.reform_year, p.solar_orientation, p.schedule_visit, p.financing,
         p.exchange_accept, p.bedroom, p.suite, p.bathroom, p.kitchen, p.vacancy, p.vacancy_private, p.vacancy_cover, p.housemaidroom,
         p.room, p.hobby_box, p.currency, p.main_purpose, p.hide_price, p.valued_sale,
@@ -96,7 +96,8 @@ $router->post('/properties', function () use ($router) {
             'owner_id' => $linha['customers'],
             'tenant_id' => '',
             'propertie_types_id' => $linha['type'],
-            'my_reference' => $linha['reference'],
+            'my_reference' => $linha['custom_reference'],
+            'reference' => $linha['reference'],
             'status' => $linha['status'],
             'reserved' => '',
             'situation' => $linha['situation'],
